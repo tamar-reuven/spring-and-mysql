@@ -3,15 +3,12 @@ package com.example.springandsql.controller;
 import com.example.springandsql.model.Student;
 import com.example.springandsql.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/world")
+@RequestMapping("/users")
 public class StudentController {
 
  private StudentService studentService;
@@ -31,8 +28,8 @@ public class StudentController {
         return studentService.Test();
     }
 
-//    @RequestMapping ("/byName/(name)")
-//    public List<Student> byStudentName(@PathVariable(value = "name") String name){
-//        return studentService.getStudentsByName(name);
-//    }
+    @PostMapping ("/addStudent")
+    public void addStudent(@RequestBody Student student){
+        studentService.addNewStudent(student);
+    }
 }

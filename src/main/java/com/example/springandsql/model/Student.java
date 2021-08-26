@@ -1,13 +1,14 @@
 package com.example.springandsql.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "students")
 public class Student {
    @Id
-   @GeneratedValue (strategy = GenerationType.AUTO)
-
+   @GeneratedValue (strategy = GenerationType.IDENTITY)
    @Column (name = "id")
    private int id;
    @Column (name = "student_name")
