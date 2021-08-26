@@ -5,15 +5,15 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "students")
+@Table(name = "students2")
 public class Student {
    @Id
-   @GeneratedValue (strategy = GenerationType.IDENTITY)
+   @GeneratedValue (strategy = GenerationType.AUTO)
    @Column (name = "id")
    private int id;
-   @Column (name = "student_name")
+   @Column (name = "s_name")
    private String name;
-   @Column (name = "Student_email")
+   @Column (name = "s_email")
    private String email;
 
     public Student(int id, String name, String email) {

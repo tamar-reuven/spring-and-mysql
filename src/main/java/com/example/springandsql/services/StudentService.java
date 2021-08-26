@@ -34,8 +34,8 @@ public class StudentService {
             throw new IllegalStateException("email's taken");
         }
         System.out.println(student+"new student to add!!!!!!");
-        getStudents();
         studentRepository.save(student);
+        getStudents();
     }
 
 
