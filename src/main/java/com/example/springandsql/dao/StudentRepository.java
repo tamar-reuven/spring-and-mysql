@@ -16,6 +16,7 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
     @Query("SELECT s From Student s WHERE s.email = ?1")
     Optional<Student> findStudentByEmail(String email);
 
-
+    @Query ("SELECT s From Student s WHERE s.grade > ?1")
+    List<Student> findStudentsWithGradeGreaterThanX(int minGrade);
 
 }
