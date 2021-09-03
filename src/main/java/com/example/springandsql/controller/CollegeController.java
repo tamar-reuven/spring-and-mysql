@@ -34,15 +34,6 @@ public class CollegeController {
     }
 
 
-    @RequestMapping("/test")
-    public String test(){
-        return collegeService.Test();
-    }
-
-    @PostMapping ("/addStudent")
-    public void addStudent(@RequestBody Student student){
-        collegeService.addNewStudent(student);
-    }
     @GetMapping ("/getByGrade")
     public List<Student> getStudentsAccordingToGrade(){
         return collegeService.getStudentsWithGradeGreaterThanX(87);
@@ -53,8 +44,46 @@ public class CollegeController {
         System.out.println(grade);
         return collegeService.getStudentsWithGradeGreaterThanX(Integer.parseInt(grade));
     }
+
+
+    @PostMapping ("/addStudent")
+    public void addStudent(@RequestBody Student student){
+        collegeService.addNewStudent(student);
+    }
     @PostMapping ("/addCourse")
     public void addCourse(@RequestBody Course course){
         collegeService.addNewCourse(course);
     }
+    @PostMapping ("/addLecturer")
+    public void addLecturer(@RequestBody Lecturer lecturer){
+        collegeService.addNewLecturer(lecturer);
+    }
+
+
+    @PutMapping ("/updateStudent")
+    public Student updateStudent(@RequestBody Student student){
+        return collegeService.updateStudent(student);
+    }
+    @PutMapping ("/updateCourse")
+    public Course updateCourse(@RequestBody Course course){
+        return collegeService.updateCourse(course);
+    }
+    @PutMapping ("/updateLecturer")
+    public Lecturer updateLecturer(@RequestBody Lecturer lecturer){
+        return collegeService.updateLecturer(lecturer);
+    }
+
+    @DeleteMapping ("/deleteStudent/{id}")
+    public String deleteStudent(@PathVariable int id){
+        return collegeService.deleteStudent(id);
+    }
+    @DeleteMapping ("/deleteCourse/{id}")
+    public String deleteCourse(@PathVariable int id){
+        return collegeService.deleteCourse(id);
+    }
+    @DeleteMapping ("/deleteLecturer/{id}")
+    public String deleteLecturer(@PathVariable int id){
+        return collegeService.deleteLecturer(id);
+    }
+
 }

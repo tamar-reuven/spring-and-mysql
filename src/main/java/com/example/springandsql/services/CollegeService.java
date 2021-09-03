@@ -7,6 +7,7 @@ import com.example.springandsql.model.Course;
 import com.example.springandsql.model.Lecturer;
 import com.example.springandsql.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +28,10 @@ public class CollegeService {
         this.lecturerRepository=lecturerRepository;
     }
 
-    public List<Student> getStudents(){ return studentRepository.findAll(); }
+    public List<Student> getStudents(){ return studentRepository.findAll();}
     public List<Course> getCourses(){ return courseRepository.findAll();}
     public List<Lecturer> getLecturers(){ return lecturerRepository.findAll();}
 
-    public String Test(){
-        String name="just checking";
-        return name;
-    }
 
     public void addNewStudent(Student student) {
         Optional<Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
@@ -45,7 +42,6 @@ public class CollegeService {
         studentRepository.save(student);
         getStudents();
     }
-
     public void addNewCourse(Course course){
         Optional<Course> courseOptional = courseRepository.findCourseById(course.getCourseId());
         if(courseOptional.isPresent()){
@@ -54,9 +50,64 @@ public class CollegeService {
         System.out.println(course+" new course to add!!!!!!");
         courseRepository.save(course);
     }
+    public void addNewLecturer(Lecturer lecturer) {
+        Optional<Lecturer> lecturerOptional = lecturerRepository.findLecturerById(lecturer.getLecturerId());
+        if(lecturerOptional.isPresent()){
+            throw new IllegalStateException("lecturer already exists");
+        }
+        System.out.println(lecturer+" new lecturer to add!!!!!!");
+        lecturerRepository.save(lecturer);
+    }
 
     public List<Student> getStudentsWithGradeGreaterThanX(int minGrade){
-        return (List<Student>) studentRepository.findStudentsWithGradeGreaterThanX(minGrade);
+        return studentRepository.findStudentsWithGradeGreaterThanX(minGrade);
+    }
+
+
+    public Student updateStudent(Student student) {
+        Student existingStudent = studentRepository.findById(student.getId()).orElse(null);
+        isExist(existingStudent);
+        return studentRepository.save(student);
+    }
+
+    public Course updateCourse(Course course) {
+        Course existingCourse = courseRepository.findCourseById(course.getCourseId()).orElse(null);
+        isExist(existingCourse);
+        return courseRepository.save(course);
+    }
+
+    public Lecturer updateLecturer(Lecturer lecturer) {
+        Lecturer existingLecturer  = lecturerRepository.findLecturerById(lecturer.getLecturerId()).orElse(null);
+        isExist(existingLecturer);
+        return lecturerRepository.save(lecturer);
+    }
+
+    public String deleteStudent(int studentId){
+        Student existingStudent = studentRepository.findById(studentId).orElse(null);
+        isExist(existingStudent);
+        studentRepository.deleteById(studentId);
+        return "student "+studentId +" was deleted";
+    }
+
+    public String deleteCourse(int courseId) {
+        Course existingCourse = courseRepository.findCourseById(courseId).orElse(null);
+        isExist(existingCourse);
+        courseRepository.deleteById(courseId);
+        return "course "+courseId +" was deleted";
+    }
+
+    public String deleteLecturer(int lecturerId) {
+        Lecturer existingLecturer=lecturerRepository.findLecturerById(lecturerId).orElse(null);
+        isExist(existingLecturer);
+        lecturerRepository.deleteById(lecturerId);
+        return "lecturer "+ lecturerId +" was deleted";
+    }
+
+    public void isExist(Object o){
+        if(o==null){
+            throw new IllegalStateException( o.getClass()+"  doesn't exist");
+        }
+        return;
     }
 
 
